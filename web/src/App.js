@@ -1,26 +1,42 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { BrowserRouter, Route } from "react-router-dom";
+import Agenda from "./components/agenda/agenda";
+import Menu from "./components/main/menu";
+import Routine from "./components/routine/routine";
+import Health from "./components/health/health";
 
 class App extends Component {
   render() {
+    const modules = [
+      {
+        label: "Agenda",
+        style: { backgroundColor: "red" },
+        path: "/agenda",
+        component: Agenda
+      },
+      {
+        label: "Health",
+        style: { backgroundColor: "blue" },
+        path: "/health",
+        component: Health
+      },
+      {
+        label: "Routine",
+        style: { backgroundColor: "green" },
+        path: "/routine",
+        component: Routine
+      }
+    ];
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Route exact path="/" render={() => <Menu modules={modules} />} />
+          {modules.map(m => (
+            <Route path={m.path} component={m.component} />
+          ))}
+        </div>
+      </BrowserRouter>
     );
   }
 }
